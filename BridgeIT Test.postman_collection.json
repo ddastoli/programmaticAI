@@ -1,0 +1,176 @@
+{
+	"info": {
+		"_postman_id": "b0650a2d-1b8f-4928-a4ae-a760e24cc77b",
+		"name": "BridgeIT Test",
+		"description": "This template contains a boilerplate for documentation that you can quickly customize and reuse.\n\n### How to use this template:\n\n- Replace the content given brackets (()) with your API's details.\n- Tips are formatted in `codespan` - feel free to read and remove them.\n    \n\n---\n\n`Start with a brief overview of what your API offers.`\n\nThe ((product name)) provides many API products, tools, and resources that enable you to ((add product value here)).\n\n`You can also list the APIs you offer, link to the relevant pages, or do both in this section.`\n\n## **Getting started guide**\n\n`List the steps or points required to start using your APIs. Make sure to cover everything required to reach success with your API as quickly as possible.`\n\nTo start using the ((add APIs here)), you need to -\n\n`The points given below are from The Postman API's documentation. You can reference it to write your own getting started guide.`\n\n- You must use a valid API Key to send requests to the API endpoints. You can get your API key from Postman's [integrations dashboard](https://go.postman.co/settings/me/api-keys).\n- The API has [rate and usage limits](https://learning.postman.com/docs/developer/postman-api/postman-api-rate-limits/).\n- The API only responds to HTTPS-secured communications. Any requests sent via HTTP return an HTTP 301 redirect to the corresponding HTTPS resources.\n- The API returns request responses in JSON format. When an API request returns an error, it is sent in the JSON response as an error key.\n    \n\n## Authentication\n\n`Add details on the authorization keys/tokens required, steps that cover how to get them, and the relevant error codes.`\n\nThe ((product name)) API uses ((add your API's authorization type)) for authentication.\n\n`The details given below are from the Postman API's documentation. You can reference it to write your own authentication section.`\n\nPostman uses API keys for authentication. You can generate a Postman API key in the [API keys](https://postman.postman.co/settings/me/api-keys) section of your Postman account settings.\n\nYou must include an API key in each request to the Postman API with the X-Api-Key request header.\n\n### Authentication error response\n\nIf an API key is missing, malformed, or invalid, you will receive an HTTP 401 Unauthorized response code.\n\n## Rate and usage limits\n\n`Use this section to cover your APIs' terms of use. Include API limits, constraints, and relevant error codes, so consumers understand the permitted API usage and practices.`\n\n`The example given below is from The Postman API's documentation. Use it as a reference to write your APIs' terms of use.`\n\nAPI access rate limits apply at a per-API key basis in unit time. The limit is 300 requests per minute. Also, depending on your plan, you may have usage limits. If you exceed either limit, your request will return an HTTP 429 Too Many Requests status code.\n\nEach API response returns the following set of headers to help you identify your use status:\n\n| Header | Description |\n| --- | --- |\n| `X-RateLimit-Limit` | The maximum number of requests that the consumer is permitted to make per minute. |\n| `X-RateLimit-Remaining` | The number of requests remaining in the current rate limit window. |\n| `X-RateLimit-Reset` | The time at which the current rate limit window resets in UTC epoch seconds. |\n\n### 503 response\n\nAn HTTP `503` response from our servers indicates there is an unexpected spike in API access traffic. The server is usually operational within the next five minutes. If the outage persists or you receive any other form of an HTTP `5XX` error, [contact support](https://support.postman.com/hc/en-us/requests/new/).\n\n### **Need some help?**\n\n`Add links that customers can refer to whenever they need help.`\n\nIn case you have questions, go through our tutorials ((link to your video or help documentation here)). Or visit our FAQ page ((link to the relevant page)).\n\nOr you can check out our community forum, there’s a good chance our community has an answer for you. Visit our developer forum ((link to developer forum)) to review topics, ask questions, and learn from others.\n\n`You can also document or add links to libraries, code examples, and other resources needed to make a request.`",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "582543"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "access",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"console.log(\"test\"+jsonData.value.data.uuid);",
+									"pm.collectionVariables.set(\"site-uuid\", jsonData.value.data.access_token);",
+									"pm.variables.set(\"token\", jsonData.value.data.access_token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "Authorization",
+								"value": "Basic {{auth}}"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://id.cisco.com/oauth2/default/v1/token",
+							"protocol": "https",
+							"host": [
+								"id",
+								"cisco",
+								"com"
+							],
+							"path": [
+								"oauth2",
+								"default",
+								"v1",
+								"token"
+							]
+						},
+						"description": "Generated from cURL: curl --location 'https://id.cisco.com/oauth2/default/v1/token' --header 'Accept: */*' --header 'Content-Type: application/x-www-form-urlencoded' --header 'Authorization: Basic Y0c5akxYUnlhV0ZzTWpBeU5FUmxZMlZ0WW1WeU1ESWYtMTkzNzJjYTJkNWJmMmU4NjUzZGQ5MzYxODM4MzRlOmJIcDdlVmVKTTA3SGx4UGljUjkzU0E3c1hwSmFQOXJoU1ZfY1hKU285NFJiakg2alNSd29wOW1ZMU5HaWFWWUw=' --data-urlencode 'grant_type=client_credentials'"
+					},
+					"response": []
+				}
+			],
+			"description": "The `/me` endpoints let you manage information about the authenticated user."
+		},
+		{
+			"name": "Run Query",
+			"item": [
+				{
+					"name": "query1",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "api-key",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"messages\": [\n        {\n            \"role\": \"system\",\n            \"content\": \"You are a chatbot\"\n        },\n        {\n            \"role\": \"user\",\n            \"content\": \"can I pass you data through a text file?\"\n        }\n    ],\n    \"user\": \"{\\\"appkey\\\": \\\"{{appkey}}\\\"}\",\n    \"stop\": [\n        \"<|im_end|>\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://chat-ai.cisco.com/openai/deployments/gpt-4o/chat/completions",
+							"protocol": "https",
+							"host": [
+								"chat-ai",
+								"cisco",
+								"com"
+							],
+							"path": [
+								"openai",
+								"deployments",
+								"gpt-4o",
+								"chat",
+								"completions"
+							]
+						},
+						"description": "Generated from cURL: curl --location 'https://chat-ai.cisco.com/openai/deployments/gpt-4o-mini/chat/completions' --header 'Content-Type: application/json' --header 'Accept: application/json' --header 'api-key: eyJraWQiOiJpd2ZpX2JQOFpVMFluWnF2bG5UY0k4ODFXQlNBWEdDT3cyell6dnd0VVg0IiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULmhJS3pmMXFhVjM5aFZHR3ZJMEVoWkFMNXhTOG5FZF9LeklSZVdsWXh1TGsiLCJpc3MiOiJodHRwczovL2lkLmNpc2NvLmNvbS9vYXV0aDIvZGVmYXVsdCIsImF1ZCI6ImFwaTovL2RlZmF1bHQiLCJpYXQiOjE3MzM4NDI1NjQsImV4cCI6MTczMzg0NjE2NCwiY2lkIjoiY0c5akxYUnlhV0ZzTWpBeU5FUmxZMlZ0WW1WeU1ESWYtMTkzNzJjYTJkNWJmMmU4NjUzZGQ5MzYxODM4MzRlIiwic2NwIjpbImN1c3RvbXNjb3BlIl0sInN1YiI6ImNHOWpMWFJ5YVdGc01qQXlORVJsWTJWdFltVnlNRElmLTE5MzcyY2EyZDViZjJlODY1M2RkOTM2MTgzODM0ZSIsImF6cCI6ImNHOWpMWFJ5YVdGc01qQXlORVJsWTJWdFltVnlNRElmLTE5MzcyY2EyZDViZjJlODY1M2RkOTM2MTgzODM0ZSJ9.oVi-TuUcgnIsujYCJU70IHhx5mTbkXmPbjuJr5fWzD_RiJFe7f5Gz7vA64wxJzjnZ3eYiGhIhw4jIjTK2kngZ--g1Gke7OeZIdNMH15nOB_T4QT5M2DzUBZYGgXhtpuRe11n3_QmNyc9z5HcSny-EWXznYgO1Ne0jqHT3rm3ogWEnN1r6LUsrhkRjsfduIWYsF9QRCasKtf4IVY5WTR0deRXK_b8WIVEjY3CBC6u8Q768p1LfBERvThsZ7FP0tXcpa0I0aUUwPSlcuPHPros8ZniehoxOST11jNWQ60U5eYyKPt04pEBMkRVdF4Xw5IqEabsQuPcZceW5YdUgkAMqQ' --data '{ \"messages\": [ { \"role\": \"system\", \"content\": \"You are a chatbot\" }, { \"role\": \"user\", \"content\": \"who is the president of USA.\" } ], \"user\": \"{\\\"appkey\\\": \\\"egai-prd-Networking-671046807-1143-other\\\"}\", \"stop\": [\"<|im_end|>\"] }'"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "X-API-Key",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://farming-simulator.pstmn.io"
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}
