@@ -1,3 +1,5 @@
+# queryai.py 
+
 import os 
 from openai import AzureOpenAI
 import requests
@@ -5,7 +7,7 @@ import json
 import base64
 
 
-def get_password(key, filename='pwdAPI'):
+def getPassword(key, filename='pwdAPI'):
     try:
         with open(filename, 'r') as file:
             for line in file:
@@ -19,17 +21,16 @@ def get_password(key, filename='pwdAPI'):
         print(f"The file '{filename}' was not found.")
         return None
 
-clientID = get_password("clientID")
-clientSecret = get_password("clientSecret")
-appkey = get_password("appkey")
+clientID = getPassword("clientID")
+clientSecret = getPassword("clientSecret")
+appkey = getPassword("appkey")
 client = str(clientID+":"+clientSecret)
 
 # Encode the clientID and Secret into bytes, then base64 encode
 encoded_bytes = base64.b64encode(client.encode('utf-8'))
 client64 = encoded_bytes.decode('utf-8')
 
-
-def ask_ai(messageToAI,tokenAI,client64AI,appkeyAI):
+def getToken(client64AI):
     # Define the URL and headers
     url = "https://id.cisco.com/oauth2/default/v1/token"
     headers = {
@@ -37,19 +38,23 @@ def ask_ai(messageToAI,tokenAI,client64AI,appkeyAI):
         "Content-Type": "application/x-www-form-urlencoded",
         "Authorization": "Basic "+client64AI
     }
-
     # Define the data payload
     data = {
         "grant_type": "client_credentials"
     }
-
     # Send the POST request to get access token
     response = requests.post(url, headers=headers, data=data)
-
     # Parse the JSON response and get the token
     response_data = response.json()
     token = response_data.get("access_token")
+    return token
 
+def askAISimple(messageAI):
+    token = getToken(client64)
+    askAI(messageAI,token,appkey)
+
+
+def askAI(messageToAI,tokenAI,appkeyAI):
     client = AzureOpenAI( 
         azure_endpoint = 'https://chat-ai.cisco.com', 
         api_key=tokenAI, 
